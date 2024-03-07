@@ -16,41 +16,27 @@ async function greet() {
 await invoke("init_process")
 
 const unlisten = await listen('key', (event) => {
-document.querySelector("#key-d--inject-1").style.transition = "100ms";
+console.log(event.payload.message.str)
 document.querySelector("#key-f--inject-1").style.transition = "100ms";
-  if (event.payload.message == "KeyPress-KeyF") {
+  if (event.payload.message.match("KeyPress")) {
     console.log('F got pressed')
+    const key = event.payload.message.replace(/KeyPress-/,'').replace(/Key/,'').toLowerCase()
+    document.querySelector(`#key-${key}--inject-1`).style.transition = "100ms";
     // document.querySelector("#key-outline-f--inject-1").style.fill = "#83EEFF";
-    document.querySelector("#key-inline-f--inject-1").style.fill = "#938E73";
-    document.querySelector("#key-outline-f--inject-1").style.fill = "#5B4D02";
-    document.querySelector("#key-f--inject-1").style.transform = "scale(1, 0.8)";
-    document.querySelector("#key-f--inject-1").style.transformOrigin = "50% 60%";
-    document.querySelector("#key-inline-f--inject-1").style.filter = "brightness(100%)"
+    document.querySelector(`#key-inline-${key}--inject-1`).style.fill = "#938E73";
+    document.querySelector(`#key-outline-${key}--inject-1`).style.fill = "#5B4D02";
+    document.querySelector(`#key-${key}--inject-1`).style.transform = "scale(1, 0.8)";
+    document.querySelector(`#key-${key}--inject-1`).style.transformOrigin = "50% 60%";
+    document.querySelector(`#key-inline-${key}--inject-1`).style.filter = "brightness(100%)"
   }
-  if (event.payload.message == "KeyPress-KeyD") {
-    console.log('D got pressed')
-    // document.querySelector("#key-outline-d--inject-1").style.fill = "#83EEFF";
-    document.querySelector("#key-inline-d--inject-1").style.fill = "#938E73";
-    document.querySelector("#key-outline-d--inject-1").style.fill = "#5B4D02";
-    document.querySelector("#key-d--inject-1").style.transform = "scale(1, 0.8)";
-    document.querySelector("#key-d--inject-1").style.transformOrigin = "50% 60%";
-    document.querySelector("#key-d--inject-1").style.filter = "brightness(100%)"
-  }
-  if (event.payload.message == "KeyRelease-KeyF") {
-    console.log('F got pressed')
-    document.querySelector("#key-inline-f--inject-1").style.fill = "#f9f4d9";
-    document.querySelector("#key-outline-f--inject-1").style.fill = "#c1b368";
-    document.querySelector("#key-f--inject-1").style.transform = "scale(1, 1)";
-    document.querySelector("#key-f--inject-1").style.transformOrigin = "50% 50%";
-    document.querySelector("#key-f--inject-1").style.filter = "brightness(80%)"
-  }
-  if (event.payload.message == "KeyRelease-KeyD") {
-    console.log('D got pressed')
-    document.querySelector("#key-inline-d--inject-1").style.fill = "#f9f4d9";
-    document.querySelector("#key-outline-d--inject-1").style.fill = "#c1b368";
-    document.querySelector("#key-d--inject-1").style.transform = "scale(1, 1)";
-    document.querySelector("#key-d--inject-1").style.transformOrigin = "50% 50%";
-    document.querySelector("#key-d--inject-1").style.filter = "brightness(100%)"
+  if (event.payload.message.match("KeyRelease")) {
+    const key = event.payload.message.replace(/KeyRelease-/,'').replace(/Key/,'').toLowerCase()
+    document.querySelector(`#key-${key}--inject-1`).style.transition = "100ms";
+    document.querySelector(`#key-inline-${key}--inject-1`).style.fill = "#f9f4d9";
+    document.querySelector(`#key-outline-${key}--inject-1`).style.fill = "#c1b368";
+    document.querySelector(`#key-${key}--inject-1`).style.transform = "scale(1, 1)";
+    document.querySelector(`#key-${key}--inject-1`).style.transformOrigin = "50% 50%";
+    document.querySelector(`#key-${key}--inject-1`).style.filter = "brightness(80%)"
   }
   console.log(event.payload)
 })

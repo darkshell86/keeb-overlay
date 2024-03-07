@@ -16,19 +16,25 @@ struct Payload {
 #[tauri::command]
 fn init_process(window: Window) {
     let callback = move |event: Event| {
-        println!("My callback {:?}", event);
-        if let EventType::KeyPress(Key::KeyF) = event.event_type {
-            window.emit("key", Payload { message: "KeyPress-KeyF".into()}).unwrap();
-        };
-        if let EventType::KeyPress(Key::KeyD) = event.event_type {
-            window.emit("key", Payload { message: "KeyPress-KeyD".into()}).unwrap();
-        };
-        if let EventType::KeyRelease(Key::KeyF) = event.event_type {
-            window.emit("key", Payload { message: "KeyRelease-KeyF".into()}).unwrap();
-        };
-        if let EventType::KeyRelease(Key::KeyD) = event.event_type {
-            window.emit("key", Payload { message: "KeyRelease-KeyD".into()}).unwrap();
-        };
+        match event.event_type {
+            EventType::KeyPress(key) => window.emit("key", Payload { message: format!("KeyPress-{:?}", key) }).unwrap(),
+            // EventType::KeyRelease(key) => println!("My callback {:?}", event.event_type),
+            EventType::KeyRelease(key) => window.emit("key", Payload { message: format!("KeyRelease-{:?}", key) }).unwrap(),
+            EventType::MouseMove{x, y}=> (),
+            _ => println!("My callback {:?}", event.event_type),
+        }
+        // if let EventType::KeyPress(Key::KeyF) = event.event_type {
+        //     window.emit("key", Payload { message: "KeyPress-KeyF".into()}).unwrap();
+        // };
+        // if let EventType::KeyPress(Key::KeyD) = event.event_type {
+        //     window.emit("key", Payload { message: "KeyPress-KeyD".into()}).unwrap();
+        // };
+        // if let EventType::KeyRelease(Key::KeyF) = event.event_type {
+        //     window.emit("key", Payload { message: "KeyRelease-KeyF".into()}).unwrap();
+        // };
+        // if let EventType::KeyRelease(Key::KeyD) = event.event_type {
+        //     window.emit("key", Payload { message: "KeyRelease-KeyD".into()}).unwrap();
+        // };
     };
 
     
